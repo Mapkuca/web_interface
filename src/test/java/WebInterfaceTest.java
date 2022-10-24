@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
@@ -70,6 +71,15 @@ public class WebInterfaceTest {
         form.$("[data-test-id=agreement]").click();
         form.$(".button").click();
         $("[data-test-id=phone].input_invalid .input__sub").shouldHave(exactText("Поле обязательно для заполнения"));
+    }
+
+    @Test
+    void CheckboxUnmarked() {
+        SelenideElement form = $("form");
+        form.$("[data-test-id=name] input").setValue("Василькова-Иванова Маргарита");
+        form.$("[data-test-id=phone] input").setValue("+71234567890");
+        form.$(".button").click();
+        $("[data-test-id=agreement].input_invalid").should(visible);
     }
 
 }
